@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NutriTrack | Indian Student Calorie Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Analytics Placeholder -->
+  <!-- Replace G-XXXXXXX with your Measurement ID later -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXX');
+  </script> -->
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+  <header class="bg-green-700 text-white py-4 text-center shadow">
+    <h1 class="text-2xl font-bold">NutriTrack</h1>
+    <p class="text-sm">Indian College Student Calorie & Nutrition Tracker</p>
+  </header>
+
+  <main class="max-w-3xl mx-auto p-4">
+    <!-- User Selection -->
+    <section class="bg-white p-4 rounded-lg shadow mb-4">
+      <h2 class="text-xl font-semibold mb-2">Select Your Details</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block font-medium mb-1">Gender:</label>
+          <select id="gender" class="border p-2 rounded w-full">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-medium mb-1">Activity Level:</label>
+          <select id="activity" class="border p-2 rounded w-full">
+            <option value="sedentary">Sedentary</option>
+            <option value="moderate">Moderate</option>
+            <option value="active">Active</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Meal Input -->
+    <section class="bg-white p-4 rounded-lg shadow mb-4">
+      <h2 class="text-xl font-semibold mb-2">Add Your Meals</h2>
+      <div id="meals">
+        <div class="mb-3">
+          <label class="block font-medium">Breakfast:</label>
+          <input type="text" id="breakfast" placeholder="e.g., Poha, 1 bowl" class="border p-2 rounded w-full" />
+        </div>
+        <div class="mb-3">
+          <label class="block font-medium">Lunch:</label>
+          <input type="text" id="lunch" placeholder="e.g., Roti + Dal + Rice" class="border p-2 rounded w-full" />
+        </div>
+        <div class="mb-3">
+          <label class="block font-medium">Dinner:</label>
+          <input type="text" id="dinner" placeholder="e.g., Paneer Curry + Rice" class="border p-2 rounded w-full" />
+        </div>
+        <div class="mb-3">
+          <label class="block font-medium">Snacks:</label>
+          <input type="text" id="snacks" placeholder="e.g., Tea + Biscuits" class="border p-2 rounded w-full" />
+        </div>
+        <button id="calculateBtn" class="bg-green-700 text-white px-4 py-2 rounded">Calculate</button>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section id="results" class="bg-white p-4 rounded-lg shadow hidden">
+      <h2 class="text-xl font-semibold mb-2">Your Daily Summary</h2>
+      <div id="output"></div>
+    </section>
+
+    <!-- Feedback -->
+    <section class="bg-white p-4 rounded-lg shadow mt-4">
+      <h2 class="text-xl font-semibold mb-2">Feedback</h2>
+      <p>Tell us how useful this tool was for you:</p>
+      <a href="https://forms.gle/" target="_blank" class="text-green-700 underline">Open Feedback Form</a>
+    </section>
+  </main>
+
+  <footer class="text-center py-4 text-sm text-gray-600">
+    &copy; 2025 NutriTrack | Designed for Indian Students
+  </footer>
+
+  <script>
+    const rda = {
+      male: { sedentary: 2500, moderate: 2700, active: 3000 },
+      female: { sedentary: 2000, moderate: 2200, active: 2400 }
+    };
+
+    document.getElementById('calculateBtn').addEventListener('click', () => {
+      const gender = document.getElementById('gender').value;
+      const activity = document.getElementById('activity').value;
+      const goal = rda[gender][activity];
+      const totalCalories = Math.floor(Math.random() * 1000) + 1500; // Placeholder random logic
+
+      const diff = goal - totalCalories;
+      let msg = '';
+      if (diff > 200) msg = `You consumed about ${diff} kcal less than your daily goal. Add a bit more protein.`;
+      else if (diff < -200) msg = `You consumed about ${Math.abs(diff)} kcal more than your daily goal. Try reducing sugary foods.`;
+      else msg = 'You are within your healthy calorie range!';
+
+      document.getElementById('results').classList.remove('hidden');
+      document.getElementById('output').innerHTML = `
+        <p><strong>Daily Goal:</strong> ${goal} kcal</p>
+        <p><strong>Estimated Intake:</strong> ${totalCalories} kcal</p>
+        <p class="mt-2 text-green-700 font-medium">${msg}</p>
+      `;
+    });
+  </script>
+</body>
+</html>
