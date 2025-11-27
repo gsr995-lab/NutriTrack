@@ -1,0 +1,87 @@
+/* ----------------------
+   NUTRITRACK STYLE SHEET
+   ---------------------- */
+
+body {
+  background-color: #f8fafc;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  color: #1e293b;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #15803d;
+  color: white;
+  text-align: center;
+  padding: 16px 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 4px;
+}
+
+h2 {
+  font-size: 1.3rem;
+  color: #14532d;
+}
+
+h3 {
+  color: #166534;
+  font-size: 1.1rem;
+}
+
+main {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+section {
+  background-color: white;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+select, input[type=number] {
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 0.95rem;
+}
+
+button {
+  background-color: #15803d;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+button:hover {
+  background-color: #166534;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #64748b;
+  padding: 16px 0;
+  border-top: 1px solid #e2e8f0;
+}
+
+#results p {
+  margin: 6px 0;
+}
+
+@media (max-width: 600px) {
+  h1 { font-size: 1.4rem; }
+  main { padding: 12px; }
+  section { padding: 12px; }
+}
