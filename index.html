@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NutriTrack | Indian College Student Nutrition Tracker</title>
+  <style>
+    body { background-color: #f9fafb; font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; color: #1e293b; }
+    header { background-color: #15803d; color: white; text-align: center; padding: 24px 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    h1 { margin: 0; font-size: 1.8rem; }
+    p.subtitle { margin: 5px 0 0 0; font-size: 1rem; }
+    main { max-width: 750px; margin: 20px auto; padding: 10px; }
+    section { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
+    label { display: block; margin-top: 10px; font-weight: 500; }
+    select, input[type=number] { width: 100%; padding: 8px 10px; margin-top: 6px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 0.95rem; transition: all 0.2s; }
+    input:focus, select:focus { border-color: #15803d; outline: none; box-shadow: 0 0 0 2px rgba(21,128,61,0.2); }
+    button { background-color: #15803d; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 1rem; margin-top: 15px; cursor: pointer; transition: background-color 0.2s; }
+    button:hover { background-color: #166534; }
+    footer { text-align: center; padding: 20px; font-size: 0.9rem; color: #64748b; }
+    #results p { margin: 6px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>NutriTrack</h1>
+    <p class="subtitle">Indian College Student Calorie & Nutrition Tracker</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Select Your Details</h2>
+      <label for="gender">Gender:</label>
+      <select id="gender">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+
+      <label for="activity">Activity Level:</label>
+      <select id="activity">
+        <option value="sedentary">Sedentary</option>
+        <option value="active">Physically Active</option>
+        <option value="weight">Weight Gain / Loss Plan</option>
+      </select>
+    </section>
+
+    <section id="meals">
+      <h2>Add Your Meals</h2>
+
+      <div class="meal">
+        <label>Breakfast:</label>
+        <select class="food"></select>
+        <label>Quantity (servings):</label>
+        <input type="number" class="qty" min="1" max="5" value="1">
+        <small>1 serving ≈ 1 bowl / plate / cup (≈150 g)</small>
+      </div>
+
+      <div class="meal">
+        <label>Lunch:</label>
+        <select class="food"></select>
+        <label>Quantity (servings):</label>
+        <input type="number" class="qty" min="1" max="5" value="1">
+        <small>1 serving ≈ 1 bowl / plate / cup (≈150 g)</small>
+      </div>
+
+      <div class="meal">
+        <label>Dinner:</label>
+        <select class="food"></select>
+        <label>Quantity (servings):</label>
+        <input type="number" class="qty" min="1" max="5" value="1">
+        <small>1 serving ≈ 1 bowl / plate / cup (≈150 g)</small>
+      </div>
+
+      <div class="meal">
+        <label>Snacks:</label>
+        <select class="food"></select>
+        <label>Quantity (servings):</label>
+        <input type="number" class="qty" min="1" max="5" value="1">
+        <small>1 serving ≈ 1 bowl / plate / cup (≈150 g)</small>
+      </div>
+
+      <button id="calculate">Calculate</button>
+    </section>
+
+    <section id="results">
+      <h2>Meal-wise Summary</h2>
+      <div id="mealResults"></div>
+      <h2>Daily Summary</h2>
+      <p><strong>Daily Goal:</strong> <span id="goal">--</span> kcal</p>
+      <p><strong>Estimated Intake:</strong> <span id="intake">--</span> kcal</p>
+      <p id="summary"></p>
+    </section>
+
+    <section>
+      <h2>Feedback</h2>
+      <p>Tell us how useful this tool was for you:</p>
+      <a href="https://forms.gle/your-google-form-id-here" target="_blank">Open Feedback Form</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 NutriTrack | Designed for Indian Students</p>
+    <p style="text-align:center;font-size:0.8rem;color:#666">
+      Visitors: 
+      <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://gsr995-lab.github.io/NutriTrack&count_bg=%2332CD32&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visits&edge_flat=false"/>
+    </p>
+  </footer>
+
+  <script>
+    const foodData = {
+      "apple": {cal: 80, protein: 0, fat: 0, carbs: 20},
+      "banana": {cal: 90, protein: 1, fat: 0, carbs: 22},
+      "biscuits": {cal: 100, protein: 2, fat: 3, carbs: 16},
+      "biryani": {cal: 400, protein: 15, fat: 15, carbs: 50},
+      "buttermilk": {cal: 60, protein: 2, fat: 2, carbs: 8},
+      "chicken curry": {cal: 270, protein: 25, fat: 18, carbs: 5},
+      "chole": {cal: 210, protein: 12, fat: 4, carbs: 30},
+      "coffee": {cal: 50, protein: 1, fat: 1, carbs: 8},
+      "cornflakes": {cal: 160, protein: 4, fat: 2, carbs: 28},
+      "curd": {cal: 80, protein: 4, fat: 4, carbs: 5},
+      "dal": {cal: 130, protein: 9, fat: 3, carbs: 18},
+      "dosa": {cal: 170, protein: 4, fat: 6, carbs: 28},
+      "egg": {cal: 80, protein: 6, fat: 5, carbs: 0},
+      "egg curry": {cal: 160, protein: 12, fat: 10, carbs: 3},
+      "fish curry": {cal: 230, protein: 26, fat: 14, carbs: 3},
+      "fried rice": {cal: 350, protein: 10, fat: 12, carbs: 45},
+      "idli": {cal: 150, protein: 5, fat: 1, carbs: 30},
+      "lassi": {cal: 200, protein: 7, fat: 8, carbs: 25},
+      "maggi": {cal: 350, protein: 8, fat: 14, carbs: 44},
+      "mix veg": {cal: 160, protein: 5, fat: 7, carbs: 18},
+      "milk": {cal: 120, protein: 6, fat: 6, carbs: 8},
+      "oats": {cal: 180, protein: 6, fat: 3, carbs: 30},
+      "orange": {cal: 60, protein: 1, fat: 0, carbs: 15},
+      "paneer": {cal: 300, protein: 18, fat: 25, carbs: 4},
+      "paratha": {cal: 220, protein: 4, fat: 10, carbs: 28},
+      "peanuts": {cal: 180, protein: 8, fat: 14, carbs: 6},
+      "poha": {cal: 180, protein: 4, fat: 5, carbs: 30},
+      "pulao": {cal: 310, protein: 10, fat: 9, carbs: 45},
+      "rajma": {cal: 240, protein: 15, fat: 5, carbs: 35},
+      "rice": {cal: 200, protein: 4, fat: 0.5, carbs: 45},
+      "roti": {cal: 120, protein: 3, fat: 2, carbs: 22},
+      "samosa": {cal: 250, protein: 4, fat: 15, carbs: 30},
+      "sandwich": {cal: 220, protein: 8, fat: 10, carbs: 28},
+      "tea": {cal: 40, protein: 1, fat: 1, carbs: 7},
+      "upma": {cal: 200, protein: 5, fat: 6, carbs: 32},
+      "vegetable curry": {cal: 150, protein: 5, fat: 8, carbs: 15},
+      "poori": {cal: 150, protein: 3, fat: 7, carbs: 20},
+      "chole bhature": {cal: 450, protein: 16, fat: 18, carbs: 50},
+      "idiyappam": {cal: 190, protein: 4, fat: 2, carbs: 38},
+      "oats porridge": {cal: 200, protein: 7, fat: 4, carbs: 35}
+    };
+
+    // Fill dropdowns alphabetically
+    document.querySelectorAll('.food').forEach(select => {
+      Object.keys(foodData).sort().forEach(food => {
+        const opt = document.createElement('option');
+        opt.value = food;
+        opt.textContent = food.charAt(0).toUpperCase() + food.slice(1);
+        select.appendChild(opt);
+      });
+    });
+
+    function getDailyGoal(gender, activity) {
+      if (gender === "male") {
+        if (activity === "sedentary") return 2500;
+        if (activity === "active") return 2800;
+        return 2600;
+      } else {
+        if (activity === "sedentary") return 2000;
+        if (activity === "active") return 2200;
+        return 2100;
+      }
+    }
+
+    document.getElementById("calculate").addEventListener("click", function() {
+      const gender = document.getElementById("gender").value;
+      const activity = document.getElementById("activity").value;
+      const goal = getDailyGoal(gender, activity);
+      document.getElementById("goal").textContent = goal;
+
+      const mealNames = ["Breakfast", "Lunch", "Dinner", "Snacks"];
+      let total = {cal: 0, protein: 0, fat: 0, carbs: 0};
+      let mealSummary = "";
+
+      document.querySelectorAll('.meal').forEach((div, i) => {
+        const food = div.querySelector('.food').value;
+        const qty = parseInt(div.querySelector('.qty').value);
+        const data = foodData[food];
+        const cal = data.cal * qty;
+        const protein = data.protein * qty;
+        const fat = data.fat * qty;
+        const carbs = data.carbs * qty;
+        total.cal += cal; total.protein += protein; total.fat += fat; total.carbs += carbs;
+        mealSummary += `<p><strong>${mealNames[i]}:</strong> ${cal} kcal (${protein}g P, ${fat}g F, ${carbs}g C)</p>`;
+      });
+
+      document.getElementById("intake").textContent = total.cal.toFixed(0);
+      document.getElementById("mealResults").innerHTML = mealSummary;
+
+      let summaryText = "";
+      if (total.cal < goal - 200) summaryText = "You are below your daily requirement.";
+      else if (total.cal > goal + 200) summaryText = "You are above your daily requirement.";
+      else summaryText = "You are within your healthy calorie range!";
+
+      summaryText += `<br><br><strong>Total:</strong> ${total.cal.toFixed(0)} kcal<br>Protein: ${total.protein.toFixed(1)} g | Fat: ${total.fat.toFixed(1)} g | Carbs: ${total.carbs.toFixed(1)} g`;
+
+      document.getElementById("summary").innerHTML = summaryText;
+    });
+  </script>
+</body>
+</html>
